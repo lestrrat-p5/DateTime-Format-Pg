@@ -1,5 +1,10 @@
 Revision history for Perl extension DateTime::Format::Pg.
 
+0.16006  Fri May 27 09:00:00 2011
+    - Repository moved to github
+    - Postgres 8.4 apprently now allows infinity dates. 
+      Applied patch by cmckay (rt #68473)
+
 0.16005  Wed Jun 23 12:15:00 2010
     - Fix edge case in fractional seconds (rt #58612).
       Patch by Andrew Whatson
