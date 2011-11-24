@@ -338,14 +338,24 @@ sub _fix_timezone {
   # Numerical time zone
   #
   
-  elsif($args{'parsed'}->{'time_zone'} =~ m/^[-\+](\d+)(:\d+)?$/) {
-    $args{'parsed'}->{'time_zone'} .= ':00' if !$2 && length($1) == 2;
+  elsif($args{'parsed'}->{'time_zone'} =~ m/^([-\+])(\d+)(?::(\d+))?(?::(\d+))?$/) {
+    my $tz;
+    if (length($2) == 2) {
+        # regular hour notation
+        my ($min, $sec) = ($3 || '00', $4 || '00');
+        $tz = sprintf "%s%02d:%02d:%02d", $1, $2, $min, $sec;
+    } else {
+        $tz = "$1$2";
+    }
+    $args{'parsed'}->{'time_zone'} = $tz;
   }
   
   # Non-numerical time zone returned, which can be ambiguous :(
   #
   else
   {
+    # XXX This barfs because 'self' may not necessarily be initialized
+    # Need to fix it
     my $stz = $args{'self'}->_server_tz($args{'args'} ? @{$args{'args'}} : ());
     $args{'parsed'}->{'time_zone'} = $stz || 'floating';
   }
