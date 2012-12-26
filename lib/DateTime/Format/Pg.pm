@@ -26,7 +26,7 @@ DateTime::Format::Pg - Parse and format PostgreSQL dates and times
 
   my $dt = DateTime::Format::Pg->parse_datetime( '2003-01-16 23:12:01' );
 
-  # 2003-01-16T23:12:01+0200
+  # 2003-01-16 23:12:01
   DateTime::Format::Pg->format_datetime($dt);
 
 =head1 DESCRIPTION
@@ -209,7 +209,7 @@ my $pg_dateonly_german =
 #
 my $pg_timeonly =
 {
-  regex		=> qr/^(\d{2,}):(\d{2,}):(\d{2,})(\.\d+)? *([-\+][\d:]+)?$/,
+  regex		=> qr/^T?(\d{2,}):(\d{2,}):(\d{2,})(\.\d+)? *([-\+][\d:]+)?$/,
   params 	=> [ qw( hour    minute  second nanosecond  time_zone) ],
   extra		=> { year => '1970' },
   postprocess	=> [ \&_fix_timezone, \&_fix_nanosecond ],
@@ -225,7 +225,7 @@ my $pg_timeonly =
 #
 my $pg_datetime_iso =
 {
-  regex		=> qr/^(\d{4,})-(\d{2,})-(\d{2,}) (\d{2,}):(\d{2,}):(\d{2,})(\.\d+)? *([-\+][\d:]+)?( BC)?$/,
+  regex		=> qr/^(\d{4,})-(\d{2,})-(\d{2,})[ T](\d{2,}):(\d{2,}):(\d{2,})(\.\d+)? *([-\+][\d:]+)?( BC)?$/,
   params 	=> [ qw( year    month    day      hour     minute  second nanosecond time_zone       era) ],
   postprocess 	=> [ \&_fix_era, \&_fix_timezone, \&_fix_nanosecond ],
 };
