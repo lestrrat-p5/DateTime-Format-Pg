@@ -1,5 +1,8 @@
 Revision history for Perl extension DateTime::Format::Pg.
 
+0.16007  Fri Nov 25 09:20:00 2011
+    - Work with [+-]hh:mm:ss time offsets. Reported by Rod Tailor (rt #72706)
+
 0.16006  Fri May 27 09:00:00 2011
     - Repository moved to github
     - Postgres 8.4 apprently now allows infinity dates. 
