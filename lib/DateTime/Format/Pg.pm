@@ -419,7 +419,7 @@ option is set correctly (i.e. same as the PostgreSQL server).  The same is true
 for time zones and the 'australian_timezones' option in all modes but 'ISO'.
 
 The default DateStyle, 'ISO', will always produce unambiguous results
-and is also parsed most efficiently by this parser class. I stronlgly
+and is also parsed most efficiently by this parser class. I strongly
 recommend using this setting unless you have a good reason not to.
 
 =over 4
@@ -439,7 +439,7 @@ If given an improperly formatted string, this method may die.
 =cut
 
 # sub parse_datetime {
-#   *** created autmatically ***
+#   *** created automatically ***
 # }
 
 =item * parse_timestamptz($string,...)
@@ -462,7 +462,7 @@ If given an improperly formatted string, this method may die.
 =cut
 
 # sub parse_timestamptz {
-#   *** created autmatically ***
+#   *** created automatically ***
 # }
 
 *parse_timestamp_with_time_zone = \&parse_timestamptz;
@@ -507,7 +507,7 @@ If given an improperly formatted string, this method may die.
 =cut
 
 # sub parse_timetz {
-#   *** created autmatically ***
+#   *** created automatically ***
 # }
 
 *parse_time_with_time_zone = \&parse_timetz;
@@ -545,7 +545,7 @@ If given an improperly formatted string, this method may die.
 =cut
 
 # sub parse_date {
-#   *** generated autmatically ***
+#   *** generated automatically ***
 # }
 
 =item * parse_duration($string)
@@ -834,7 +834,7 @@ As a general rules, none of these limitations apply to the 'ISO' output
 format.  It is strongly recommended to use this format (and to use
 PostgreSQL's to_char function when another output format that's not
 supposed to be handled by a parser of this class is desired). 'ISO' is
-the default but you are advised to explicitly set it at the beginnig of
+the default but you are advised to explicitly set it at the beginning of
 the session by issuing a SET DATESTYLE TO 'ISO'; command in case the
 server administrator changes that setting.
 
@@ -873,7 +873,7 @@ This problem does not occur when using the ISO or German output format
 C<DateTime::Duration> stores months, days, minutes and seconds
 separately. PostgreSQL only stores months and seconds and disregards the
 irregular length of days due to DST switching and the irregular length
-of minutes due to leap seconds. Therefore, it is not possitble to store
+of minutes due to leap seconds. Therefore, it is not possible to store
 C<DateTime::Duration> objects as SQL INTERVALs without the loss of some
 information.
 
