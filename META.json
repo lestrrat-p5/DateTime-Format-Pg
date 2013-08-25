@@ -1,0 +1,75 @@
+{
+   "abstract" : "Parse and format PostgreSQL dates and times",
+   "author" : [
+      "Daisuke Maki <daisuke@endeworks.jp>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Minilla/v0.6.4, CPAN::Meta::Converter version 2.120921",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "DateTime-Format-Pg",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "xt",
+         "inc",
+         "share",
+         "eg",
+         "examples",
+         "author"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.36",
+            "Test::More" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "CPAN::Meta" : "0",
+            "CPAN::Meta::Prereqs" : "0",
+            "Module::Build" : "0.38"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Test::CPAN::Meta" : "0",
+            "Test::MinimumVersion" : "0.10108",
+            "Test::Pod" : "1.41",
+            "Test::Spellunker" : "v0.2.7"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "DateTime" : "0.10",
+            "DateTime::Format::Builder" : "0.72",
+            "DateTime::TimeZone" : "0.05"
+         }
+      }
+   },
+   "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/lestrrat/DateTime-Format-Pg/issues"
+      },
+      "homepage" : "https://github.com/lestrrat/DateTime-Format-Pg",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/lestrrat/DateTime-Format-Pg.git",
+         "web" : "https://github.com/lestrrat/DateTime-Format-Pg"
+      }
+   },
+   "version" : "0.16008",
+   "x_contributors" : [
+      "Vasily Chekalkin <bacek@bacek.com>",
+      "David Steinbrunner <dsteinbrunner@pobox.com>",
+      "lestrrat <lestrrat+github@gmail.com>"
+   ]
+}

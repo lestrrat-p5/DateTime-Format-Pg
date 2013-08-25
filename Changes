@@ -1,5 +1,7 @@
 Revision history for Perl extension DateTime::Format::Pg.
 
+{{$NEXT}}
+
 0.16008  Fri Nov 25 09:20:00 2011
     - Work with [+-]hh:mm:ss time offsets. Reported by Rod Tailor (rt #72706)
 
