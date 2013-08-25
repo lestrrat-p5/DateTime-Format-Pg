@@ -1,6 +1,8 @@
 Revision history for Perl extension DateTime::Format::Pg.
 
 {{$NEXT}}
+
+0.16009 2013-08-25T04:51:15Z
     - Fix typos [pr #2] (dsteinbrunner)
     - Migrate to using Minilla for packaging
 
