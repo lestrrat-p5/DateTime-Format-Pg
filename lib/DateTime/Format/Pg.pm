@@ -561,12 +561,16 @@ If given an improperly formatted string, this method may die.
 
 sub parse_duration {
     my ($self, $string) = @_;
-    my ($year, $mon, $day, $sgn, $hour, $min, $sec, $frc, $ago) = $string =~ m{
+    my ($mil, $cent, $dec, $year, $mon, $wk, $day, $sgn, $hour, $min, $sec, $frc, $ago) = $string =~ m{
         \A                                     # Start of string.
         (?:\@\s*)?                             # Optional leading @.
-        (?:([-+]?\d+)\s+years?\s*)?            # years
-        (?:([-+]?\d+)\s+mon(?:th)?s?\s*)?      # months
-        (?:([-+]?\d+)\s+days?\s*)?             # days
+        (?:([-+]?\d+)\s+(?:millennium|millennia|millenniums|mil|mils)\s*)?  # millennia
+        (?:([-+]?\d+)\s+(?:century|centuries|cent|c)\s*)?                   # centuries
+        (?:([-+]?\d+)\s+(?:decade|decades|dec|decs)\s*)?                    # decades
+        (?:([-+]?\d+)\s+(?:year|years|yr|yrs|y)\s*)?                        # years
+        (?:([-+]?\d+)\s+(?:month|months|mon|mons)\s*)?                      # months
+        (?:([-+]?\d+)\s+(?:week|weeks|w)\s*)?                               # weeks
+        (?:([-+]?\d+)\s+(?:day|days|d)\s*)?                                 # days
         (?:                                    # Start h/m/s
           # hours
           (?:([-+])?([0-9]\d|[1-9]\d{2,}(?=:)|\d+(?=\s+hour))(?:\s+hours?)?\s*)?
@@ -589,7 +593,11 @@ sub parse_duration {
 
     # DT::Duration only stores years, days, months, seconds (and
     # nanoseconds)
+    $year += 1000 * $mil if $mil;
+    $year += 100 * $cent if $cent;
+    $year += 10 * $dec   if $dec;
     $mon += 12 * $year if $year;
+    $day +=  7 *   $wk if $wk;
     $min += 60 * $hour if $hour;
 
     # HH:MM:SS.FFFF share a single sign

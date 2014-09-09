@@ -105,6 +105,46 @@ BEGIN
             hours => -2,
             minutes => -3,
         )],
+
+        [ '1 millennium' => DateTime::Duration->new( years => 1000 )],
+        [ '2 millennia' => DateTime::Duration->new( years => 2000 )],
+        [ '3 millenniums' => DateTime::Duration->new( years => 3000 )],
+        [ '1 mil' => DateTime::Duration->new( years => 1000 )],
+        [ '2 mils' => DateTime::Duration->new( years => 2000 )],
+        
+        [ '1 century' => DateTime::Duration->new( years => 100 )],
+        [ '2 centuries' => DateTime::Duration->new( years => 200 )],
+        [ '1 cent' => DateTime::Duration->new( years => 100 )],
+        [ '2 c' => DateTime::Duration->new( years => 200 )],
+        
+        [ '1 decade' => DateTime::Duration->new( years => 10 )],
+        [ '2 decades' => DateTime::Duration->new( years => 20 )],
+        [ '1 dec' => DateTime::Duration->new( years => 10 )],
+        [ '2 decs' => DateTime::Duration->new( years => 20 )],
+
+        [ '1 year' => DateTime::Duration->new( years => 1 )],
+        [ '2 years' => DateTime::Duration->new( years => 2 )],
+        [ '1 y' => DateTime::Duration->new( years => 1 )],
+        [ '1 yr' => DateTime::Duration->new( years => 1 )],
+        [ '2 yrs' => DateTime::Duration->new( years => 2 )],
+        
+        [ '1 mil 9 c 6 decade 2 yr' => DateTime::Duration->new( years => 1962 )],
+
+        [ '1 month' => DateTime::Duration->new( months => 1 )],
+        [ '2 months' => DateTime::Duration->new( months => 2 )],
+        [ '1 mon' => DateTime::Duration->new( months => 1 )],
+        [ '2 mons' => DateTime::Duration->new( months => 2 )],
+        
+        [ '1 week' => DateTime::Duration->new( weeks => 1 )],
+        [ '2 weeks' => DateTime::Duration->new( weeks => 2 )],
+        [ '1 w' => DateTime::Duration->new( weeks => 1 )],
+        
+        [ '1 day' => DateTime::Duration->new( days => 1 )],
+        [ '2 days' => DateTime::Duration->new( days => 2 )],
+        [ '1 d' => DateTime::Duration->new( days => 1 )],
+        
+        [ '1 mil 2 c 4 decade 8 yr 9 months 18 d ' => DateTime::Duration->new( years => 1248, months => 9, days => 18 )],
+        [ '12 yr 42 w' => DateTime::Duration->new( years => 12, weeks => 42 )],
     );
 
     plan tests => @negative_data + @positive_data + 1;
