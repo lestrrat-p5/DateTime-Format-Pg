@@ -565,15 +565,15 @@ sub parse_duration {
         \A                                     # Start of string.
         (?:\@\s*)?                             # Optional leading @.
         (?:([-+]?\d+)\s+years?\s*)?            # years
-        (?:([-+]?\d+)\s+mons?\s*)?             # months
+        (?:([-+]?\d+)\s+mon(?:th)?s?\s*)?      # months
         (?:([-+]?\d+)\s+days?\s*)?             # days
         (?:                                    # Start h/m/s
           # hours
           (?:([-+])?([0-9]\d|[1-9]\d{2,}(?=:)|\d+(?=\s+hour))(?:\s+hours?)?\s*)?
           # minutes
-          (?::?((?<=:)[012345]\d|\d+(?=\s+mins?))(?:\s+mins?)?\s*)?
+          (?::?((?<=:)[012345]\d|\d+(?=\s+min(?:ute)?s?))(?:\s+min(?:ute)?s?)?\s*)?
           # seconds
-          (?::?((?<=:)[012345]\d|\d+(?=\.|\s+secs?))(\.\d+)?(?:\s+secs?)?\s*)?
+          (?::?((?<=:)[012345]\d|\d+(?=\.|\s+sec(?:ond)?s?))(\.\d+)?(?:\s+sec(?:ond)?s?)?\s*)?
         ?)                                     # End hh:mm:ss
         (ago)?                                 # Optional inversion
         \z                                     # End of string

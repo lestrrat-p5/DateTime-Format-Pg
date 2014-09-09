@@ -28,7 +28,9 @@ BEGIN
         [ '-23:59'    => DateTime::Duration->new(hours => -23, minutes => -59) ],
         [ '-1 days -00:01' => DateTime::Duration->new( days => -1, minutes => -1) ],
         [ '1 mon -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
+        [ '1 month -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
         [ '@ 1 mon -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
+        [ '@ 1 month -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
         [ '-1 days +02:03:00' => DateTime::Duration->new(days => -1)
               ->add(
                   hours  => 2,
@@ -50,7 +52,10 @@ BEGIN
         [ '@ 1 day 1 min ago' => DateTime::Duration->new( days => -1, minutes => -1 )],
         [ '10 days' => DateTime::Duration->new(days => 10 ) ],
         [ '34 years' => DateTime::Duration->new(years => 34 )],
+        [ '3 mon' => DateTime::Duration->new(months => 3 )],
         [ '3 mons' => DateTime::Duration->new(months => 3 )],
+        [ '3 month' => DateTime::Duration->new(months => 3 )],
+        [ '3 months' => DateTime::Duration->new(months => 3 )],
         [ '-00:00:14' => DateTime::Duration->new(seconds => -14 )],
         [ '1 day 02:03:04' => DateTime::Duration->new(
             days => 1,
@@ -61,10 +66,16 @@ BEGIN
     
         [ '5 mons 12:00:00' => DateTime::Duration->new( months => 5, hours => 12) ],
         [ '@ 1 min' => DateTime::Duration->new(minutes => 1 )],
+        [ '@ 1 mins' => DateTime::Duration->new(minutes => 1 )],
+        [ '@ 1 minute' => DateTime::Duration->new(minutes => 1 )],
+        [ '@ 1 minutes' => DateTime::Duration->new(minutes => 1 )],
         [ '@ 5 hours' => DateTime::Duration->new( hours => 5 )],
         [ '@ 34 years' => DateTime::Duration->new(years => 34 )],
         [ '@ 3 mons' => DateTime::Duration->new(months => 3 )],
+        [ '@ 14 sec ago' => DateTime::Duration->new( seconds => -14 )],
         [ '@ 14 secs ago' => DateTime::Duration->new( seconds => -14 )],
+        [ '@ 14 second ago' => DateTime::Duration->new( seconds => -14 )],
+        [ '@ 14 seconds ago' => DateTime::Duration->new( seconds => -14 )],
         [ '@ 1 day 2 hours 3 mins 4 secs' => DateTime::Duration->new(
             days => 1,
             hours => 2,
