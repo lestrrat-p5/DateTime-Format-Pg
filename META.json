@@ -4,7 +4,7 @@
       "Daisuke Maki <daisuke@endeworks.jp>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v0.6.4, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Minilla/v0.12.0, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -21,7 +21,8 @@
          "share",
          "eg",
          "examples",
-         "author"
+         "author",
+         "builder"
       ]
    },
    "prereqs" : {
@@ -66,10 +67,11 @@
          "web" : "https://github.com/lestrrat/DateTime-Format-Pg"
       }
    },
-   "version" : "0.16009",
+   "version" : "0.16010",
    "x_contributors" : [
       "Vasily Chekalkin <bacek@bacek.com>",
       "David Steinbrunner <dsteinbrunner@pobox.com>",
-      "Daisuke Maki <lestrrat+github@gmail.com>"
+      "Henrik Pauli <henrik.pauli@gmail.com>",
+      "lestrrat <lestrrat+github@gmail.com>"
    ]
 }
