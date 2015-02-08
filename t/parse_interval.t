@@ -11,13 +11,16 @@ my @negative_data;
 BEGIN
 {
     @negative_data = (
-        '098:08:00',
-        '1:08:00',
-        '-012:00:00',
+#        '098:08:00',
+#        '1:08:00',
+#        '-012:00:00',
         '12:34:00 1 week 42 seconds',
     );
 
     @positive_data = (
+        [ '098:08:00' => DateTime::Duration->new( hours => 98, minutes => 8, ) ],
+        [ '1:08:00' => DateTime::Duration->new( hours => 1, minutes => 8, ) ],
+        [ '-012:00:00' => DateTime::Duration->new( hours => -12, ) ],
         [ '00:00:00' => DateTime::Duration->new() ],
         [ '-08:08:00' => DateTime::Duration->new( hours => -8, minutes => -8) ],
         [ '-98:08:00' => DateTime::Duration->new( hours => -98, minutes => -8) ],
@@ -29,7 +32,7 @@ BEGIN
         [ '-23:59'    => DateTime::Duration->new(hours => -23, minutes => -59) ],
         [ '-1 days -00:01' => DateTime::Duration->new( days => -1, minutes => -1) ],
         [ '1 mon -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
-        [ '1 day 1 month' => DateTime::Duration->new(months => 1)->add(days => -1) ],
+        [ '1 day 1 month' => DateTime::Duration->new(months => 1)->add(days => 1) ],
         [ '1 month -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
         [ '@ 1 mon -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
         [ '@ 1 month -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
