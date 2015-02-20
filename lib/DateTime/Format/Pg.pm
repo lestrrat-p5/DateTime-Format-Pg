@@ -580,7 +580,7 @@ sub parse_duration {
 	              map(($_, ["years", 1000]), qw(millennium millennia millenniums mil mils)) );
 
     (my $string = $string_to_parse) =~ s/^@\s*//;
-    $string =~ s/\+(\d+)/$1/;
+    $string =~ s/\+(\d+)/$1/g;
 
     my $subtract = 0;
     if ( $string =~ s/ago// ) {
