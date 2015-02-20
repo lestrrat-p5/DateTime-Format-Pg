@@ -20,6 +20,7 @@ BEGIN
     @positive_data = (
         [ '098:08:00' => DateTime::Duration->new( hours => 98, minutes => 8, ) ],
         [ '1:08' => DateTime::Duration->new( hours => 1, minutes => 8, ) ],
+        [ '3 days 1:08' => DateTime::Duration->new( days => 3, hours => 1, minutes => 8, ) ],
         [ '1:08:00' => DateTime::Duration->new( hours => 1, minutes => 8, ) ],
         [ '-012:00:00' => DateTime::Duration->new( hours => -12, ) ],
         [ '00:00:00' => DateTime::Duration->new() ],
