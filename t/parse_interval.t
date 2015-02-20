@@ -11,9 +11,6 @@ my @negative_data;
 BEGIN
 {
     @negative_data = (
-#        '098:08:00',
-#        '1:08:00',
-#        '-012:00:00',
         '12:34:00 1 week 42 seconds',
     );
 
