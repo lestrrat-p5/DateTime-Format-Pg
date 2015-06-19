@@ -12,7 +12,7 @@ use DateTime::TimeZone::UTC;
 use DateTime::TimeZone::Floating;
 use Data::Dumper;
 
-$VERSION = '0.16010';
+$VERSION = '0.16011';
 $VERSION = eval $VERSION;
 
 our @ISA = ('DateTime::Format::Builder');

@@ -2,6 +2,9 @@ Revision history for Perl extension DateTime::Format::Pg.
 
 {{$NEXT}}
 
+0.16011 2015-06-19T13:40:27Z
+    - Support full interval syntax [pr #7]
+
 0.16010 2014-09-18T12:36:03Z
     - Add support for various more interval units [pr #3]:
       millenium, century, decade, month, week
