@@ -10,6 +10,7 @@ use DateTime::Format::Builder 0.72;
 use DateTime::TimeZone 0.06;
 use DateTime::TimeZone::UTC;
 use DateTime::TimeZone::Floating;
+use Data::Dumper;
 
 $VERSION = '0.16010';
 $VERSION = eval $VERSION;
@@ -560,59 +561,73 @@ If given an improperly formatted string, this method may die.
 =cut
 
 sub parse_duration {
-    my ($self, $string) = @_;
-    my ($mil, $cent, $dec, $year, $mon, $wk, $day, $sgn, $hour, $min, $sec, $frc, $ago) = $string =~ m{
-        \A                                     # Start of string.
-        (?:\@\s*)?                             # Optional leading @.
-        (?:([-+]?\d+)\s+(?:millennium|millennia|millenniums|mil|mils)\s*)?  # millennia
-        (?:([-+]?\d+)\s+(?:century|centuries|cent|c)\s*)?                   # centuries
-        (?:([-+]?\d+)\s+(?:decade|decades|dec|decs)\s*)?                    # decades
-        (?:([-+]?\d+)\s+(?:year|years|yr|yrs|y)\s*)?                        # years
-        (?:([-+]?\d+)\s+(?:month|months|mon|mons)\s*)?                      # months
-        (?:([-+]?\d+)\s+(?:week|weeks|w)\s*)?                               # weeks
-        (?:([-+]?\d+)\s+(?:day|days|d)\s*)?                                 # days
-        (?:                                    # Start h/m/s
-          # hours
-          (?:([-+])?([0-9]\d|[1-9]\d{2,}(?=:)|\d+(?=\s+hour))(?:\s+hours?)?\s*)?
-          # minutes
-          (?::?((?<=:)[012345]\d|\d+(?=\s+min(?:ute)?s?))(?:\s+min(?:ute)?s?)?\s*)?
-          # seconds
-          (?::?((?<=:)[012345]\d|\d+(?=\.|\s+sec(?:ond)?s?))(\.\d+)?(?:\s+sec(?:ond)?s?)?\s*)?
-        ?)                                     # End hh:mm:ss
-        (ago)?                                 # Optional inversion
-        \z                                     # End of string
-    }xms or croak "Invalid interval string $string";
+    my ($self, $string_to_parse) = @_;
 
     # NB: We can't just pass our values to new() because it treats all
     # arguments as negative if we have a single negative component.
     # PostgreSQL might return mixed signs, e.g. '1 mon -1day'.
     my $du = DateTime::Duration->new;
 
-    # Define for calculations
-    $_ ||= 0 for $sec, $frc, $min, $day, $mon;
+    my %units = ( map(($_, ["seconds", 1]), qw(s second seconds sec secs)),
+	              map(($_, ["minutes", 1]), qw(m minute minutes min mins)),
+	              map(($_, ["hours",   1]), qw(h hr hour hours)),
+	              map(($_, ["days",    1]), qw(d day days)),
+	              map(($_, ["weeks",   1]), qw(w week weeks)),
+	              map(($_, ["months",  1]), qw(M mon mons month months)),
+	              map(($_, ["years",   1]), qw(y yr yrs year years)),
+	              map(($_, ["years",  10]), qw(decade decades dec decs)),
+	              map(($_, ["years", 100]), qw(c cent century centuries)),
+	              map(($_, ["years", 1000]), qw(millennium millennia millenniums mil mils)) );
 
-    # DT::Duration only stores years, days, months, seconds (and
-    # nanoseconds)
-    $year += 1000 * $mil if $mil;
-    $year += 100 * $cent if $cent;
-    $year += 10 * $dec   if $dec;
-    $mon += 12 * $year if $year;
-    $day +=  7 *   $wk if $wk;
-    $min += 60 * $hour if $hour;
+    (my $string = $string_to_parse) =~ s/^@\s*//;
+    $string =~ s/\+(\d+)/$1/g;
 
-    # HH:MM:SS.FFFF share a single sign
-    if ($sgn && $sgn eq '-') {
-        $_ *= -1 for $min, $sec, $frc;
+    my $subtract = 0;
+    if ( $string =~ s/ago// ) {
+        $subtract = 1;
     }
 
-    $du->add(
-        months      => $mon,
-        days        => $day,
-        minutes     => $min,
-        seconds     => $sec,
-        nanoseconds => $frc * DateTime::Duration::MAX_NANOSECONDS,
-    );
-    return $ago ? $du->inverse : $du;
+    my $sign = 0;
+    my %done;
+
+#   $timespec =~ s/\b(\d+):(\d\d):((\d\d)|(\d\d.\d+))\b/$1h $2m $3s/g;
+    $string =~ s/\b(\d+):(\d\d):(\d\d)\b/$1h $2m $3s/g;
+    $string =~ s/\b(\d+):(\d\d)\b/$1h $2m/g;
+
+    if ( $string =~ m/-(\d+)h (\d+)m (\d+)s\s*/ ) {
+        $string =~ s/\s*(\d+)m\s+(\d+)s\s*/ -$1m -$2s /;
+    }
+
+    if ( $string =~ m/-(\d+)h (\d+)m\s*/ ) {
+        $string =~ s/\s*(\d+)m\s*/ -$1m /;
+    }
+
+
+    while ($string =~ s/^\s*(-?\d+(?:[.,]\d+)?)\s*([a-zA-Z]+)(?:\s*(?:,|and)\s*)*//i) {
+        my($amount, $unit) = ($1, $2);
+        $unit = lc($unit) unless length($unit) == 1;
+
+        my ($base_unit, $num);
+        if ( defined( $units{$unit} ) ) { 
+            ($base_unit, $num) = @{$units{$unit}};
+            my $key = $base_unit . "-" . $num;
+            Carp::croak "Unknown timespec: $string_to_parse" if defined($done{$key});
+            $done{$key} = 1;
+
+            $amount =~ s/,/./;
+            if ( $subtract ) {
+                 $du->subtract( $base_unit => $amount * $num );
+            } else {
+                $du->add( $base_unit => $amount * $num );
+            }
+        } else {
+            Carp::croak "Unknown timespec: $string_to_parse";
+        }
+    }
+
+
+
+    return $du;
 }
 
 *parse_interval = \&parse_duration;

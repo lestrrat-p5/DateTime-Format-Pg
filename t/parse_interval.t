@@ -11,12 +11,15 @@ my @negative_data;
 BEGIN
 {
     @negative_data = (
-        '098:08:00',
-        '1:08:00',
-        '-012:00:00',
+        '12:34:00 1 week 42 seconds',
     );
 
     @positive_data = (
+        [ '098:08:00' => DateTime::Duration->new( hours => 98, minutes => 8, ) ],
+        [ '1:08' => DateTime::Duration->new( hours => 1, minutes => 8, ) ],
+        [ '3 days 1:08' => DateTime::Duration->new( days => 3, hours => 1, minutes => 8, ) ],
+        [ '1:08:00' => DateTime::Duration->new( hours => 1, minutes => 8, ) ],
+        [ '-012:00:00' => DateTime::Duration->new( hours => -12, ) ],
         [ '00:00:00' => DateTime::Duration->new() ],
         [ '-08:08:00' => DateTime::Duration->new( hours => -8, minutes => -8) ],
         [ '-98:08:00' => DateTime::Duration->new( hours => -98, minutes => -8) ],
@@ -28,6 +31,7 @@ BEGIN
         [ '-23:59'    => DateTime::Duration->new(hours => -23, minutes => -59) ],
         [ '-1 days -00:01' => DateTime::Duration->new( days => -1, minutes => -1) ],
         [ '1 mon -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
+        [ '1 day 1 month' => DateTime::Duration->new(months => 1)->add(days => 1) ],
         [ '1 month -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
         [ '@ 1 mon -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
         [ '@ 1 month -1 days' => DateTime::Duration->new(months => 1)->add(days => -1) ],
@@ -145,6 +149,7 @@ BEGIN
         
         [ '1 mil 2 c 4 decade 8 yr 9 months 18 d ' => DateTime::Duration->new( years => 1248, months => 9, days => 18 )],
         [ '12 yr 42 w' => DateTime::Duration->new( years => 12, weeks => 42 )],
+        [ '12:34:56 1 week' => DateTime::Duration->new( weeks => 1, hours => 12, minutes => 34, seconds => 56)],
     );
 
     plan tests => @negative_data + @positive_data + 1;
