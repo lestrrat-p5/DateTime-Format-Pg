@@ -12,6 +12,9 @@ BEGIN
 {
     @negative_data = (
         '12:34:00 1 week 42 seconds',
+        "2 hello",
+        "hello",
+        "-days",
     );
 
     @positive_data = (

@@ -10,7 +10,6 @@ use DateTime::Format::Builder 0.72;
 use DateTime::TimeZone 0.06;
 use DateTime::TimeZone::UTC;
 use DateTime::TimeZone::Floating;
-use Data::Dumper;
 
 $VERSION = '0.16011';
 $VERSION = eval $VERSION;
@@ -593,15 +592,8 @@ sub parse_duration {
 #   $timespec =~ s/\b(\d+):(\d\d):((\d\d)|(\d\d.\d+))\b/$1h $2m $3s/g;
     $string =~ s/\b(\d+):(\d\d):(\d\d)\b/$1h $2m $3s/g;
     $string =~ s/\b(\d+):(\d\d)\b/$1h $2m/g;
-
-    if ( $string =~ m/-(\d+)h (\d+)m (\d+)s\s*/ ) {
-        $string =~ s/\s*(\d+)m\s+(\d+)s\s*/ -$1m -$2s /;
-    }
-
-    if ( $string =~ m/-(\d+)h (\d+)m\s*/ ) {
-        $string =~ s/\s*(\d+)m\s*/ -$1m /;
-    }
-
+    $string =~ s/(-\d+h)\s+(\d+m)\s+(\d+s)\s*/$1 -$2 -$3 /;
+    $string =~ s/(-\d+h)\s+(\d+m)\s*/$1 -$2 /;
 
     while ($string =~ s/^\s*(-?\d+(?:[.,]\d+)?)\s*([a-zA-Z]+)(?:\s*(?:,|and)\s*)*//i) {
         my($amount, $unit) = ($1, $2);
@@ -625,7 +617,9 @@ sub parse_duration {
         }
     }
 
-
+    if ($string =~ /\S/) { # OK to have extra spaces, but nothing else
+        Carp::croak "Unknown timespec: $string_to_parse";
+    }
 
     return $du;
 }
