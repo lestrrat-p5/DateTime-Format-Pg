@@ -617,6 +617,10 @@ sub parse_duration {
         }
     }
 
+    if ($string =~ /\S/) { # OK to have extra spaces, but nothing else
+        Carp::croak "Unknown timespec: $string_to_parse";
+    }
+
     return $du;
 }
 
