@@ -862,7 +862,7 @@ handled unambiguously by PostgreSQL.
 
 If DateStyle is set to 'PostgreSQL', 'SQL', or 'German', PostgreSQL does
 not send numerical time zones for the TIMESTAMPTZ (or TIMESTAMP WITH
-TIME ZONE) type. Unfortunatly, the time zone names used instead can be
+TIME ZONE) type. Unfortunately, the time zone names used instead can be
 ambiguous: For example, 'EST' can mean -0500, +1000, or +1100.
 
 You must set the 'server_tz' variable to a time zone that is identical to that
