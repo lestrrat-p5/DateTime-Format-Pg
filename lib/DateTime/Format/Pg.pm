@@ -581,40 +581,58 @@ sub parse_duration {
     (my $string = $string_to_parse) =~ s/^@\s*//;
     $string =~ s/\+(\d+)/$1/g;
 
-    my $subtract = 0;
+    # Method used later on duration object
+    my $arith_method = "add";
     if ( $string =~ s/ago// ) {
-        $subtract = 1;
+        $arith_method = "subtract";
     }
 
     my $sign = 0;
     my %done;
 
-#   $timespec =~ s/\b(\d+):(\d\d):((\d\d)|(\d\d.\d+))\b/$1h $2m $3s/g;
-    $string =~ s/\b(\d+):(\d\d):(\d\d)\b/$1h $2m $3s/g;
+    $string =~ s/\b(\d+):(\d\d):(\d\d)(\.\d+)?\b/$1h $2m $3$4s/g;
     $string =~ s/\b(\d+):(\d\d)\b/$1h $2m/g;
     $string =~ s/(-\d+h)\s+(\d+m)\s+(\d+s)\s*/$1 -$2 -$3 /;
     $string =~ s/(-\d+h)\s+(\d+m)\s*/$1 -$2 /;
 
     while ($string =~ s/^\s*(-?\d+(?:[.,]\d+)?)\s*([a-zA-Z]+)(?:\s*(?:,|and)\s*)*//i) {
         my($amount, $unit) = ($1, $2);
-        $unit = lc($unit) unless length($unit) == 1;
-
-        my ($base_unit, $num);
-        if ( defined( $units{$unit} ) ) { 
-            ($base_unit, $num) = @{$units{$unit}};
-            my $key = $base_unit . "-" . $num;
-            Carp::croak "Unknown timespec: $string_to_parse" if defined($done{$key});
-            $done{$key} = 1;
-
-            $amount =~ s/,/./;
-            if ( $subtract ) {
-                 $du->subtract( $base_unit => $amount * $num );
-            } else {
-                $du->add( $base_unit => $amount * $num );
-            }
-        } else {
-            Carp::croak "Unknown timespec: $string_to_parse";
+        if (length($unit) != 1) {
+            $unit = lc($unit);
         }
+
+        my $udata = $units{$unit};
+        if (! $udata) {
+            Carp::croak("Unknown timespec: $string_to_parse");
+        }
+        my ($base_unit, $num) = @$udata;
+        my $key = $base_unit . "-" . $num;
+        if (exists $done{$key}) {
+            Carp::croak("Unknown timespec: $string_to_parse");
+        }
+        $done{$key} = 1;
+
+        my @extra_args;
+
+        $amount =~ s/,/./;
+        if ($amount =~ s/\.(\d+)$//) {
+            my $fractional = $1;
+            # We only handle fractional seconds right now. If you
+            # need support for silly formats (from my perspective ;-P)
+            # like '1.5 weeks', please provide me with a comprehensive
+            # test for all possible combinations of fractional times.
+            if ($base_unit ne "seconds") {
+                Carp::croak("Fractional input detected: currently only fractional seconds are supported")
+            }
+
+            # From the spec, Pg can take up to 6 digits for fractional part
+            # (duh, as 1 sec = 1_000_000 nano sec). If we're missing 0's,
+            # we should pad them
+            $fractional .= '0'x (6 - length($fractional));
+            push @extra_args, ("nanoseconds" => $fractional);
+        }
+
+        $du->$arith_method($base_unit => $amount * $num, @extra_args);
     }
 
     if ($string =~ /\S/) { # OK to have extra spaces, but nothing else
