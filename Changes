@@ -1,10 +1,11 @@
 Revision history for Perl extension DateTime::Format::Pg.
 
 {{$NEXT}}
+    - Fix handling fractional seconds (issue #12)
 
 0.16012 2016-07-19T21:37:31Z
     - Parsing invalid intervals with no amount and units only should have
-      resulted in exceptions, but did not. Reported by Henrik Pauli (ssue #8)
+      resulted in exceptions, but did not. Reported by Henrik Pauli (issue #8)
     - Internal cleanup
 
 0.16011 2015-06-19T13:40:27Z
