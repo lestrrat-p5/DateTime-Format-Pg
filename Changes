@@ -1,6 +1,9 @@
 Revision history for Perl extension DateTime::Format::Pg.
 
 {{$NEXT}}
+
+0.16013 2017-05-04T12:46:23Z
+    - Fix handling for nanoseconds (issue #14)
     - Fix handling fractional seconds (issue #12)
 
 0.16012 2016-07-19T21:37:31Z

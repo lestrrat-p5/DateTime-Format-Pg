@@ -11,7 +11,7 @@ use DateTime::TimeZone 0.06;
 use DateTime::TimeZone::UTC;
 use DateTime::TimeZone::Floating;
 
-$VERSION = '0.16012';
+$VERSION = '0.16013';
 $VERSION = eval $VERSION;
 
 our @ISA = ('DateTime::Format::Builder');

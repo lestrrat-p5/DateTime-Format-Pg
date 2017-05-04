@@ -66,12 +66,13 @@
          "web" : "https://github.com/lestrrat/DateTime-Format-Pg"
       }
    },
-   "version" : "0.16012",
+   "version" : "0.16013",
    "x_contributors" : [
       "Vasily Chekalkin <bacek@bacek.com>",
       "David Steinbrunner <dsteinbrunner@pobox.com>",
       "Henrik Pauli <henrik.pauli@gmail.com>",
       "Nitish Bezzala <nbezzala@yahoo.com>",
+      "Ilya Chesnokov <chesnokov.ilya@gmail.com>",
       "lestrrat <lestrrat+github@gmail.com>"
    ]
 }
