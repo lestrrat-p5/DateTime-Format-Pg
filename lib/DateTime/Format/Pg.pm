@@ -368,7 +368,7 @@ sub _fix_timezone {
 sub _fix_nanosecond {
   my %args = @_;
   if(defined $args{'parsed'}->{'nanosecond'}) {
-    $args{'parsed'}->{'nanosecond'} *= 1.0E9;
+    $args{'parsed'}->{'nanosecond'} = sprintf '%.0f', $args{'parsed'}->{'nanosecond'} * 1.0E9;
   } else {
     delete $args{'parsed'}->{'nanosecond'}
   };
