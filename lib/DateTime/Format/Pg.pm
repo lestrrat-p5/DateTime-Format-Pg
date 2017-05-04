@@ -10,7 +10,6 @@ use DateTime::Format::Builder 0.72;
 use DateTime::TimeZone 0.06;
 use DateTime::TimeZone::UTC;
 use DateTime::TimeZone::Floating;
-use POSIX qw(lround);
 
 $VERSION = '0.16012';
 $VERSION = eval $VERSION;
@@ -369,7 +368,7 @@ sub _fix_timezone {
 sub _fix_nanosecond {
   my %args = @_;
   if(defined $args{'parsed'}->{'nanosecond'}) {
-    $args{'parsed'}->{'nanosecond'} = lround($args{'parsed'}->{'nanosecond'} * 1.0E9);
+    $args{'parsed'}->{'nanosecond'} = sprintf '%.0f', $args{'parsed'}->{'nanosecond'} * 1.0E9;
   } else {
     delete $args{'parsed'}->{'nanosecond'}
   };
