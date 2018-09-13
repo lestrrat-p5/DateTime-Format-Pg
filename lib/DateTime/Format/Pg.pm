@@ -592,7 +592,7 @@ sub parse_duration {
 
     $string =~ s/\b(\d+):(\d\d):(\d\d)(\.\d+)?\b/$1h $2m $3$4s/g;
     $string =~ s/\b(\d+):(\d\d)\b/$1h $2m/g;
-    $string =~ s/(-\d+h)\s+(\d+m)\s+(\d+s)\s*/$1 -$2 -$3 /;
+    $string =~ s/(-\d+h)\s+(\d+m)\s+(\d+(?:\.\d+)?s)\s*/$1 -$2 -$3 /;
     $string =~ s/(-\d+h)\s+(\d+m)\s*/$1 -$2 /;
 
     while ($string =~ s/^\s*(-?\d+(?:[.,]\d+)?)\s*([a-zA-Z]+)(?:\s*(?:,|and)\s*)*//i) {
@@ -629,7 +629,8 @@ sub parse_duration {
             # (duh, as 1 sec = 1_000_000 nano sec). If we're missing 0's,
             # we should pad them
             $fractional .= '0'x (6 - length($fractional));
-            push @extra_args, ("nanoseconds" => $fractional);
+            my $sign = ($amount > 0) ? 1 : -1;
+            push @extra_args, ("nanoseconds" => $sign * $fractional);
         }
 
         $du->$arith_method($base_unit => $amount * $num, @extra_args);
