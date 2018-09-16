@@ -626,9 +626,9 @@ sub parse_duration {
             }
 
             # From the spec, Pg can take up to 6 digits for fractional part
-            # (duh, as 1 sec = 1_000_000 nano sec). If we're missing 0's,
+            # that is microseconds. If we're missing 0's,
             # we should pad them
-            $fractional .= '0'x (6 - length($fractional));
+            $fractional .= '0'x (9 - length($fractional));
             my $sign = ($amount > 0) ? 1 : -1;
             push @extra_args, ("nanoseconds" => $sign * $fractional);
         }
