@@ -510,6 +510,9 @@ If given an improperly formatted string, this method may die.
 
 *parse_timestamp_with_time_zone = \&parse_timestamptz;
 
+# For https://github.com/lestrrat-p5/DateTime-Format-Pg/issues/20
+*parse_timestamp_with_timezone = \&parse_timestamptz;
+
 =item * parse_timestamp($string,...)
 
 =item * parse_timestamp_without_time_zone($string,...)
