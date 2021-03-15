@@ -489,6 +489,8 @@ If given an improperly formatted string, this method may die.
 
 =item * parse_timestamp_with_time_zone($string,...)
 
+=item * parse_timestamp_with_timezone($string,...)
+
 Given a string containing a timestamp (date and time) representation,
 this method will return a new C<DateTime> object. This method is
 suitable for the TIMESTAMPTZ (or TIMESTAMP WITH TIME ZONE) type.
@@ -501,6 +503,8 @@ with the TIMESTAMP WITH TIME ZONE (or TIMESTAMPTZ) type but will just
 return a time stamp converted for the server's local time zone.
 
 If given an improperly formatted string, this method may die.
+
+C<parse_timestamp_with_timezone> is an alias to satisfy other modules' check.
 
 =cut
 
