@@ -1,8 +1,6 @@
 Revision history for Perl extension DateTime::Format::Pg.
 
 {{$NEXT}}
-
-0.16014 2021-03-15
     - Fix handling for fractional seconds (#17)
     - Accept concatenated dates (#18)
 
