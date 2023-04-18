@@ -340,26 +340,6 @@ sub _fix_timezone {
     $args{'parsed'}->{'time_zone'} = $param{'_force_tz'};
   }
 
-  elsif(!defined($args{'parsed'}->{'time_zone'})) {
-    # For very early and late dates, PostgreSQL always returns times in
-    # UTC and does not tell us that it did so.
-    #
-    if ( $args{'parsed'}->{'year'} < 1901
-    || ( $args{'parsed'}->{'year'} == 1901 && ($args{'parsed'}->{'month'} < 12 || $args{'parsed'}->{'day'} < 14) )
-    ||   $args{'parsed'}->{'year'} > 2038
-    || ( $args{'parsed'}->{'year'} == 2038 && ($args{'parsed'}->{'month'} > 01 || $args{'parsed'}->{'day'} > 18) )
-    ) {
-    $args{'parsed'}->{'time_zone'} = DateTime::TimeZone::UTC->new();
-    }
-
-    # DT->new() does not like undef time_zone params, which are generated
-    # by the regexps
-    #
-    else {
-      delete $args{'parsed'}->{'time_zone'};
-    }
-  }
-
   # Numerical time zone
   #
   
